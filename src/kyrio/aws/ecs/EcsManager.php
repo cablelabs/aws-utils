@@ -103,7 +103,7 @@ class EcsManager
 
     public function getQACluster()
     {
-        return ;
+        return array('qa-cluster');
     }
 
     public function getProdCluster()
