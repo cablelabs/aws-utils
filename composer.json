@@ -1,5 +1,5 @@
 {
-    "name": "cablelabs/aws-php",
+    "name": "kyrio/aws-utils",
     "scripts": {
         "kill-all-tasks": [
             "Kyrio\\CLI::killAllTasks"
