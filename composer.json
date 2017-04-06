@@ -1,0 +1,33 @@
+{
+    "name": "cablelabs/aws-php",
+    "scripts": {
+        "kill-all-tasks": [
+            "Kyrio\\CLI::killAllTasks"
+        ],
+        "kill-all-tasks-in-family": [
+            "Kyrio\\CLI::killAllTasksInFamily"
+        ],
+        "kill-all-tasks-not-in-family": [
+            "Kyrio\\CLI::killAllTasksNotInFamily"
+        ]
+    },
+    "autoload": {
+        "psr-4" : {
+            "Kyrio\\": "src/kyrio/",
+            "Kyrio\\AWS\\": "src/kyrio/aws/",
+            "Kyrio\\AWS\\ECS\\": "src/kyrio/aws/ecs/",
+            "Kyrio\\AWS\\EC2\\": "src/kyrio/aws/ec2/",
+            "Kyrio\\AWS\\S3\\": "src/kyrio/aws/s3/",
+            "Kyrio\\AWS\\Cloudwatch\\": "src/kyrio/aws/cloudwatch/",
+            "Kyrio\\AWS\\Route53\\": "src/kyrio/aws/route53/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Kyrio\\AWS\\Tests\\": "tests/"
+        }
+    },
+    "require": {
+        "aws/aws-sdk-php": "^3.18"
+    }
+}
