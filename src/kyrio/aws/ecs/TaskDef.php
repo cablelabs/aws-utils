@@ -41,8 +41,8 @@ class TaskDef extends \Kyrio\AWS\Resource
                 'containerDefinitions' => [
                     [
                         'command' => ['npm', 'run', strtolower($msoFullName)],
-                        'cpu' => 1024,
-                        'memory' => 1024,
+                        'cpu' => 1500,
+                        'memory' => 1500,
                         'name' => $containerName,
                         'essential' => true,
                         'image' => $image,
@@ -142,8 +142,8 @@ class TaskDef extends \Kyrio\AWS\Resource
                 'containerDefinitions' => [
                     [
                         'command' => ['npm', 'run', strtolower($msoFullName)],
-                        'cpu' => 1024,
-                        'memory' => 2048,
+                        'cpu' => 1500,
+                        'memory' => 1500,
                         'name' => $containerName,
                         'essential' => true,
                         'image' => $image,
