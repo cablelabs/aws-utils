@@ -41,8 +41,8 @@ class TaskDef extends \Kyrio\AWS\Resource
                 'containerDefinitions' => [
                     [
                         'command' => ['npm', 'run', strtolower($msoFullName)],
-                        'cpu' => 1500,
-                        'memory' => 1500,
+                        'cpu' => 1024,
+                        'memory' => 1024,
                         'name' => $containerName,
                         'essential' => true,
                         'image' => $image,
@@ -56,7 +56,7 @@ class TaskDef extends \Kyrio\AWS\Resource
                         'portMappings' => [
                             [
                                 'containerPort' => 8080,
-                                'hostPort' => $msoPorts[$msoFullName],
+                                'hostPort' => 8080,
                                 'protocol' => 'tcp',
                             ],
                         ],
