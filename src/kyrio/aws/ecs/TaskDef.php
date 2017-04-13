@@ -22,18 +22,6 @@ class TaskDef extends \Kyrio\AWS\Resource
 
     private $containerDefs;
 
-    private $msoPorts = [
-        'cox' => '8080',
-        'charter' => '8081',
-        'comcast' => '8082',
-        'wow' => '8083',
-        'midco' => '8084',
-        'mediacom' => '8085',
-        'altice' => '8086',
-        'testmso' => '8087',
-        'shaw' => '8088'
-    ];
-
     public function __construct()
     {
         $this->containerDefs = array();
@@ -130,6 +118,17 @@ class TaskDef extends \Kyrio\AWS\Resource
     }
 
     public function createNew($msoFullName, $clusterColor, $family, $image, $instanceType, $accessKeyId, $secretAccessKey, $httpAuthUser, $httpAuthPass, $buildNumber = '', $frontEndBuildNumber = ''){
+       $msoPorts = [
+          'cox' => '8080',
+          'charter' => '8081',
+          'comcast' => '8082',
+          'wow' => '8083',
+          'midco' => '8084',
+          'mediacom' => '8085',
+          'altice' => '8086',
+          'testmso' => '8087',
+          'shaw' => '8088'
+      ];
         try{
             $nodeEnv = strtolower($clusterColor) == 'qa' ? strtolower($msoFullName) . 'qa' : strtolower($msoFullName);
             $containerName = 'api-mx-' . strtolower($msoFullName);
