@@ -103,7 +103,7 @@ class EcsManager
 
     public function getQACluster()
     {
-        return array('qa-cluster');
+        return array($this->cluster['arn:aws:ecs:us-east-1:565703495208:cluster/qa-cluster']);
     }
 
     public function getProdCluster()
