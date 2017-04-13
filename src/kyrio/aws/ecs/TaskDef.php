@@ -27,6 +27,111 @@ class TaskDef extends \Kyrio\AWS\Resource
         $this->containerDefs = array();
     }
 
+    public function createNew($msoFullName, $clusterColor, $family, $image, $instanceType, $accessKeyId, $secretAccessKey, $httpAuthUser, $httpAuthPass, $buildNumber = '', $frontEndBuildNumber = ''){
+       $msoPorts = [
+          'Cox' => '8080',
+          'Charter' => '8081',
+          'Comcast' => '8082',
+          'WOW' => '8083',
+          'Midco' => '8084',
+          'Mediacom' => '8085',
+          'Altice' => '8086',
+          'TestMSO' => '8087',
+          'Shaw' => '8088'
+      ];
+        try{
+            $nodeEnv = strtolower($clusterColor) == 'qa' ? strtolower($msoFullName) . 'qa' : strtolower($msoFullName);
+            $containerName = 'api-mx-' . strtolower($msoFullName);
+            if($clusterColor == 'qa') {
+                $containerName .= 'qa';
+            }
+
+            echo "Creds check... " . $this->$creds;
+
+            $result = $this->awsClient->registerTaskDefinition([
+                'family' => $family,
+                'networkMode' => 'bridge',
+                'containerDefinitions' => [
+                    [
+                        'command' => ['npm', 'run', strtolower($msoFullName)],
+                        'cpu' => 1500,
+                        'memory' => 1500,
+                        'name' => $containerName,
+                        'essential' => true,
+                        'image' => $image,
+                        'logConfiguration' => [
+                            'logDriver' => 'awslogs',
+                            'options' => [
+                                'awslogs-region' => 'us-east-1',
+                                'awslogs-group' => $clusterColor . '-bsa-backend-' . strtolower($msoFullName)
+                            ],
+                        ],
+                        'portMappings' => [
+                            [
+                                'containerPort' => 8080,
+                                'hostPort' => $msoPorts[$msoFullName],
+                                'protocol' => 'tcp',
+                            ],
+                        ],
+                        'readonlyRootFilesystem' => false,
+                        'environment' => [
+                            [
+                                'name' => 'ACCESS_KEY_ID',
+                                'value' => $accessKeyId,
+                            ],
+                            [
+                                'name' => 'SECRET_ACCESS_KEY',
+                                'value' => $secretAccessKey,
+                            ],
+                            [
+                                'name' => 'BASIC_AUTH_PASSWORD',
+                                'value' => $httpAuthPass,
+                            ],
+                            [
+                                'name' => 'BASIC_AUTH_USER_NAME',
+                                'value' =>  $httpAuthUser,
+                            ],
+                            [
+                                'name' => 'INSTANCE_TYPE',
+                                'value' => $instanceType,
+                            ],
+                            [
+                                'name' => 'LOG_LEVEL',
+                                'value' => 'INFO',
+                            ],
+                            [
+                                'name' => 'MY_PROVIDER_ID',
+                                'value' => $msoFullName,
+                            ],
+                            [
+                                'name' => 'NODE_ENV',
+                                'value' => $nodeEnv,
+                            ],
+                            [
+                                'name' => 'REGION',
+                                'value' => 'us-east-1',
+                            ],
+                        ],
+                    ],
+                ]
+            ]);
+
+            echo "Log msg to check...";
+
+            //echo(var_dump($result));
+            $this->family = $result['taskDefinition']['family'];
+            $this->revision = $result['taskDefinition']['revision'];
+            $this->setArn($result['taskDefinition']['taskDefinitionArn']);
+
+            return true;
+        }catch(AwsException $e){
+            echo(print_r($e, true));
+            echo($e->getMessage());
+            echo($e->getTraceAsString());
+            return false;
+        }
+    }
+
     public function create($msoFullName, $clusterColor, $family, $image, $instanceType, $accessKeyId, $secretAccessKey, $httpAuthUser, $httpAuthPass, $buildNumber = '', $frontEndBuildNumber = ''){
         try{
             $nodeEnv = strtolower($clusterColor) == 'qa' ? strtolower($msoFullName) . 'qa' : strtolower($msoFullName);
