@@ -119,15 +119,15 @@ class TaskDef extends \Kyrio\AWS\Resource
 
     public function createNew($msoFullName, $clusterColor, $family, $image, $instanceType, $accessKeyId, $secretAccessKey, $httpAuthUser, $httpAuthPass, $buildNumber = '', $frontEndBuildNumber = ''){
        $msoPorts = [
-          'cox' => '8080',
-          'charter' => '8081',
-          'comcast' => '8082',
-          'wow' => '8083',
-          'midco' => '8084',
-          'mediacom' => '8085',
-          'altice' => '8086',
-          'testmso' => '8087',
-          'shaw' => '8088'
+          'Cox' => '8080',
+          'Charter' => '8081',
+          'Comcast' => '8082',
+          'WOW' => '8083',
+          'Midco' => '8084',
+          'Mediacom' => '8085',
+          'Altice' => '8086',
+          'TestMSO' => '8087',
+          'Shaw' => '8088'
       ];
         try{
             $nodeEnv = strtolower($clusterColor) == 'qa' ? strtolower($msoFullName) . 'qa' : strtolower($msoFullName);
