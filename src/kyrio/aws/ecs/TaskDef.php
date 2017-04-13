@@ -29,15 +29,15 @@ class TaskDef extends \Kyrio\AWS\Resource
 
     public function createNew($msoFullName, $clusterColor, $family, $image, $instanceType, $accessKeyId, $secretAccessKey, $httpAuthUser, $httpAuthPass, $buildNumber = '', $frontEndBuildNumber = ''){
        $msoPorts = [
-          'Cox' => '8080',
-          'Charter' => '8081',
-          'Comcast' => '8082',
-          'WOW' => '8083',
-          'Midco' => '8084',
-          'Mediacom' => '8085',
-          'Altice' => '8086',
-          'TestMSO' => '8087',
-          'Shaw' => '8088'
+          'Cox' => 8080,
+          'Charter' => 8081,
+          'Comcast' => 8082,
+          'WOW' => 8083,
+          'Midco' => 8084,
+          'Mediacom' => 8085,
+          'Altice' => 8086,
+          'TestMSO' => 8087,
+          'Shaw' => 8088
       ];
         try{
             $nodeEnv = strtolower($clusterColor) == 'qa' ? strtolower($msoFullName) . 'qa' : strtolower($msoFullName);
@@ -45,8 +45,6 @@ class TaskDef extends \Kyrio\AWS\Resource
             if($clusterColor == 'qa') {
                 $containerName .= 'qa';
             }
-
-            echo "Creds check... " . $this->$creds;
 
             $result = $this->awsClient->registerTaskDefinition([
                 'family' => $family,
