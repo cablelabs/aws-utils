@@ -11,7 +11,7 @@ namespace Kyrio\AWS\ECS;
 use Aws\Ecs\Exception\EcsException;
 use Aws\Exception\AwsException;
 
-class TaskDef extends \Kyrio\AWS\Resource
+class TaskDefNew extends \Kyrio\AWS\Resource
 {
     private $family;
     private $revision;
@@ -27,7 +27,18 @@ class TaskDef extends \Kyrio\AWS\Resource
         $this->containerDefs = array();
     }
 
-    public function create($msoFullName, $clusterColor, $family, $image, $instanceType, $accessKeyId, $secretAccessKey, $httpAuthUser, $httpAuthPass, $buildNumber = '', $frontEndBuildNumber = ''){
+    public function createNew($msoFullName, $clusterColor, $family, $image, $instanceType, $accessKeyId, $secretAccessKey, $httpAuthUser, $httpAuthPass, $buildNumber = '', $frontEndBuildNumber = ''){
+       $msoPorts = [
+          'Cox' => '8080',
+          'Charter' => '8081',
+          'Comcast' => '8082',
+          'WOW' => '8083',
+          'Midco' => '8084',
+          'Mediacom' => '8085',
+          'Altice' => '8086',
+          'TestMSO' => '8087',
+          'Shaw' => '8088'
+      ];
         try{
             $nodeEnv = strtolower($clusterColor) == 'qa' ? strtolower($msoFullName) . 'qa' : strtolower($msoFullName);
             $containerName = 'api-mx-' . strtolower($msoFullName);
@@ -35,14 +46,16 @@ class TaskDef extends \Kyrio\AWS\Resource
                 $containerName .= 'qa';
             }
 
+            echo "Creds check... " . $this->$creds;
+
             $result = $this->awsClient->registerTaskDefinition([
                 'family' => $family,
                 'networkMode' => 'bridge',
                 'containerDefinitions' => [
                     [
                         'command' => ['npm', 'run', strtolower($msoFullName)],
-                        'cpu' => 1024,
-                        'memory' => 1024,
+                        'cpu' => 1500,
+                        'memory' => 1500,
                         'name' => $containerName,
                         'essential' => true,
                         'image' => $image,
@@ -56,7 +69,7 @@ class TaskDef extends \Kyrio\AWS\Resource
                         'portMappings' => [
                             [
                                 'containerPort' => 8080,
-                                'hostPort' => 8080,
+                                'hostPort' => $msoPorts[$msoFullName],
                                 'protocol' => 'tcp',
                             ],
                         ],
@@ -102,6 +115,8 @@ class TaskDef extends \Kyrio\AWS\Resource
                     ],
                 ]
             ]);
+
+            echo "Log msg to check...";
 
             //echo(var_dump($result));
             $this->family = $result['taskDefinition']['family'];
