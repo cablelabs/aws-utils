@@ -108,6 +108,6 @@ class EcsManager
 
     public function getProdCluster()
     {
-        return ;
+        return array($this->clusters['arn:aws:ecs:us-east-1:565703495208:cluster/prod-cluster']);
     }
 }
