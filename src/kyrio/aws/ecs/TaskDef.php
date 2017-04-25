@@ -46,6 +46,8 @@ class TaskDef extends \Kyrio\AWS\Resource
                 $containerName .= 'qa';
             }
 
+            if($clusterColor != 'qa') $clusterColor = 'blue';
+
             $result = $this->awsClient->registerTaskDefinition([
                 'family' => $family,
                 'networkMode' => 'bridge',
